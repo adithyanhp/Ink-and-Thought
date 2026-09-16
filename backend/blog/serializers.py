@@ -1,6 +1,3 @@
-# blog/serializers.py
-#serializers.py is the file where we define how our models will be converted to JSON format and vice versa. It allows us to easily serialize and deserialize data for our API endpoints.(API endpoints are the URLs that our frontend will use to interact with our backend.)
-
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Post, Comment, Like
@@ -10,7 +7,16 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email']
+        # Added the new fields matching your frontend profile.html
+        fields = [
+            'id', 
+            'username', 
+            'email', 
+            'profile_picture', 
+            'bio', 
+            'location', 
+            'website'
+        ]
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
@@ -37,5 +43,4 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_likes_count(self, obj):
         return obj.likes.count()
-
     
