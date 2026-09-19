@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="h-full" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Article - Ink &amp; Thought</title>
+    <!-- Fonts: Outfit (Headlines), Inter (Body), JetBrains Mono (Code/Metadata) -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <!-- Material Symbols Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-surface": "#263143",
+              "error": "#ba1a1a",
+              "surface-container": "#e7eeff",
+              "surface-container-highest": "#d8e3fb",
+              "surface-bright": "#f9f9ff",
+              "error-container": "#ffdad6",
+              "on-surface": "#111c2d",
+              "on-error-container": "#93000a",
+              "secondary-fixed": "#ffddb8",
+              "tertiary-fixed": "#a1f1e6",
+              "outline": "#6f7a6d",
+              "tertiary-container": "#006860",
+              "tertiary": "#004e48",
+              "on-background": "#111c2d",
+              "primary-fixed": "#85fb91",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#fdb965",
+              "inverse-on-surface": "#ecf1ff",
+              "on-tertiary-container": "#94e4d9",
+              "surface-container-high": "#dee8ff",
+              "code-bg": "#0F172A",
+              "on-tertiary-fixed": "#00201d",
+              "primary": "#00501a",
+              "on-secondary": "#ffffff",
+              "on-primary": "#ffffff",
+              "outline-variant": "#bfcaba",
+              "tertiary-fixed-dim": "#85d5ca",
+              "on-primary-fixed-variant": "#00531b",
+              "surface-tint": "#006e26",
+              "on-primary-container": "#77ed84",
+              "leaf-vibrant": "#25A244",
+              "secondary": "#855300",
+              "on-secondary-fixed-variant": "#653e00",
+              "on-surface-variant": "#3f493e",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "primary-container": "#006b25",
+              "surface-subtle": "#F8FAFC",
+              "surface": "#f9f9ff",
+              "secondary-container": "#fdb965",
+              "surface-container-low": "#f0f3ff",
+              "on-primary-fixed": "#002106",
+              "inverse-primary": "#68de78",
+              "terminal-accent": "#22C55E",
+              "on-tertiary-fixed-variant": "#00504a",
+              "primary-fixed-dim": "#68de78",
+              "on-secondary-container": "#754900",
+              "surface-dim": "#cfdaf2",
+              "on-secondary-fixed": "#2a1700",
+              "background": "#f9f9ff",
+              "surface-variant": "#d8e3fb"
+            },
+            fontFamily: {
+              headline: ["Outfit", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+            spacing: {
+              "container-prose": "45rem",
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+          display: inline-block;
+          vertical-align: middle;
+          line-height: 1;
+        }
+        .material-symbols-outlined.fill-1 {
+          font-variation-settings: 'FILL' 1;
+        }
+        #post-content p {
+          margin-bottom: 1.75rem;
+          line-height: 1.85;
+          font-size: 1.125rem;
+          color: #111c2d;
+        }
+        #post-content h2 {
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.75rem;
+          font-weight: 700;
+          line-height: 1.35;
+          margin-top: 2.75rem;
+          margin-bottom: 1rem;
+          color: #111c2d;
+          letter-spacing: -0.02em;
+        }
+        #post-content h3 {
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.35rem;
+          font-weight: 600;
+          line-height: 1.4;
+          margin-top: 2.25rem;
+          margin-bottom: 0.75rem;
+          color: #111c2d;
+          letter-spacing: -0.015em;
+        }
+        #post-content blockquote {
+          border-left: 4px solid #25A244;
+          padding: 1.25rem 1.5rem;
+          font-style: italic;
+          color: #3f493e;
+          margin: 2rem 0;
+          background: #f0fdf4;
+          border-radius: 0 0.75rem 0.75rem 0;
+          line-height: 1.75;
+        }
+        #post-content a {
+          color: #006b25;
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          transition: color 0.15s;
+        }
+        #post-content a:hover {
+          color: #25A244;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-full flex flex-col font-body selection:bg-leaf-vibrant/20 selection:text-primary-container">
+    
+    <!-- Main View Container -->
+    <main class="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-8 md:py-12">
+        
+        <!-- Top Bar Navigation -->
+        <nav class="mb-8 md:mb-10 flex items-center justify-between">
+            <a class="inline-flex items-center gap-2 text-sm font-medium text-on-surface-variant hover:text-primary-container transition-colors py-1.5 px-2.5 -ml-2.5 rounded-lg hover:bg-surface-container-low group" href="index.html">
+                <span class="material-symbols-outlined text-lg transition-transform group-hover:-translate-x-0.5">arrow_back</span>
+                <span class="font-headline font-medium">Back to Feed</span>
+            </a>
+            <div class="flex items-center gap-2 text-on-surface-variant">
+                <button aria-label="Share article" class="p-2 rounded-lg hover:bg-surface-container-low hover:text-on-surface transition-colors" title="Share article" type="button">
+                    <span class="material-symbols-outlined text-xl">share</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Post Article Header -->
+        <header class="space-y-4 md:space-y-6">
+            
+            <!-- Category Pill Badge -->
+            <div class="flex items-center gap-2.5">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold tracking-wide uppercase border bg-emerald-50 text-[#006b25] border-emerald-200/80 shadow-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-leaf-vibrant inline-block"></span>
+                    <span id="post-category">Article</span>
+                </span>
+            </div>
+
+            <!-- H1 Post Title -->
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-on-surface font-headline leading-[1.15]" id="post-title">
+                Loading...
+            </h1>
+
+            <!-- Author Row Meta -->
+            <div class="flex items-center gap-3.5 pt-2 pb-6 border-b border-surface-container-high text-on-surface-variant">
+                <div class="relative flex-shrink-0">
+                    <img alt="Author portrait" class="w-11 h-11 rounded-full object-cover ring-2 ring-surface-container-lowest shadow-sm" src="https://placehold.co/100x100/22c55e/ffffff?text=User"/>
+                </div>
+                <div class="flex flex-col text-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="font-headline font-semibold text-on-surface tracking-tight" id="post-author-name">Loading author...</span>
+                        <span class="text-xs font-mono text-on-surface-variant/85 bg-surface-container-low border border-surface-container-high px-1.5 py-0.5 rounded" id="post-author-handle">@loading</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs font-mono text-on-surface-variant/75 mt-0.5">
+                        <time id="post-date">Loading date...</time>
+                        <span>•</span>
+                        <span class="inline-flex items-center gap-1 font-medium text-leaf-vibrant">
+                            <span class="w-1.5 h-1.5 rounded-full inline-block bg-leaf-vibrant"></span> Published
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Featured Image -->
+        <figure class="my-8 md:my-10">
+            <img id="post-image" alt="Post featured visual" class="w-full h-auto aspect-[16/9] object-cover rounded-2xl shadow-sm border border-surface-container-high bg-surface-container-low" src="https://placehold.co/800x450/e7eeff/111c2d?text=Loading+Image..."/>
+        </figure>
+
+        <!-- Post Body Content -->
+        <article class="text-on-surface text-lg leading-relaxed pt-2 pb-12 border-b border-surface-container-high" id="post-content">
+            Loading content...
+        </article>
+
+        <!-- Bottom Action Section / Bar (Like & Comment buttons) -->
+        <footer class="pt-6 pb-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <!-- Like Button -->
+                <button aria-label="Like post" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-high text-on-surface-variant hover:text-error hover:border-error/40 hover:bg-error-container/30 transition-all text-sm font-medium shadow-xs group" id="btn-like" type="button">
+                    <span class="material-symbols-outlined text-xl transition-transform group-hover:scale-110 text-on-surface-variant group-hover:text-error">favorite</span>
+                    <span class="font-mono font-semibold text-xs" id="post-likes-count">0</span>
+                </button>
+                <!-- Comment Button -->
+                <button aria-label="Comment on post" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-lowest border border-surface-container-high text-on-surface-variant transition-all text-sm font-medium shadow-xs group hover:border-leaf-vibrant/60 hover:bg-emerald-50/50 hover:text-primary-container" id="btn-comment" type="button">
+                    <span class="material-symbols-outlined text-xl transition-transform group-hover:scale-110 group-hover:text-leaf-vibrant">chat_bubble</span>
+                    <span class="font-mono font-semibold text-xs" id="post-comments-count">0</span>
+                </button>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Connects to our Javascript file -->
+    <script src="script/post.js"></script>
+</body>
+</html>
