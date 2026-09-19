@@ -4,30 +4,27 @@
 // The URL to your Django API endpoint
 const API_URL = 'http://127.0.0.1:8000/api/posts/';
 
-// Here is where we use that ID from Step 1! We find the container.
 const postsGrid = document.getElementById('posts-grid');
 
 // Function to fetch and display posts
 async function loadPosts() {
     try {
-        // 1. Fetch data from your Django API
         const response = await fetch(API_URL);
         const posts = await response.json();
 
-        // 2. Clear out the placeholder HTML cards
         postsGrid.innerHTML = '';
 
-        // 3. Loop through the posts from the database and create HTML for each
         posts.forEach(post => {
-            // If there's an image, use it. Otherwise, use a placeholder.
             const imageUrl = post.image ? post.image : 'https://placehold.co/600x400/22c55e/ffffff?text=No+Image';
-            
-            // Format the date nicely (e.g., "Sep 17")
             const date = new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
-            // Create the HTML string for the article
+            // 👇 WE CHANGED THE <article> TAG AND THE <a> TAG BELOW 👇
             const articleHTML = `
-            <article class="group bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md p-spacing-lg flex flex-col justify-between transition-all duration-200 hover:-translate-y-1">
+            <article 
+                onclick="window.location.href='post.html?id=${post.id}'" 
+                style="cursor: pointer;" 
+                class="group bg-surface-container-lowest rounded-xl border border-outline-variant/30 shadow-sm hover:shadow-md p-spacing-lg flex flex-col justify-between transition-all duration-200 hover:-translate-y-1">
+                
                 <div>
                     <div class="relative w-full h-48 rounded-lg overflow-hidden mb-spacing-md bg-surface-container">
                         <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${imageUrl}" alt="${post.title}">
@@ -39,7 +36,7 @@ async function loadPosts() {
                         <span>${date}</span>
                     </div>
                     <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface group-hover:text-primary transition-colors leading-snug">
-                        <a href="#" class="">${post.title}</a>
+                        <a href="post.html?id=${post.id}" class="">${post.title}</a>
                     </h3>
                     <p class="font-body-sm text-body-sm text-on-surface-variant mt-spacing-xs line-clamp-3">
                         ${post.subtitle || post.content.substring(0, 100) + '...'}
@@ -53,14 +50,13 @@ async function loadPosts() {
                         </button>
                         <button class="inline-flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors text-label-sm font-label-sm">
                             <span class="material-symbols-outlined text-body-default">chat_bubble</span>
-                            <span>${post.comments.length}</span>
+                            <span>${post.comments ? post.comments.length : 0}</span>
                         </button>
                     </div>
                 </div>
             </article>
             `;
             
-            // Add the new article to the grid!
             postsGrid.innerHTML += articleHTML;
         });
 
@@ -70,5 +66,4 @@ async function loadPosts() {
     }
 }
 
-// Call the function when the page loads
 document.addEventListener('DOMContentLoaded', loadPosts);
