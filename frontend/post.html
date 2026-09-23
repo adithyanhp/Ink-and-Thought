@@ -1,3 +1,5 @@
+<!-- Article write Template (post create )-->
+
 <!DOCTYPE html>
 <html class="h-full" lang="en">
 <head>
@@ -141,6 +143,19 @@
 </head>
 <body class="bg-surface text-on-surface antialiased min-h-full flex flex-col font-body selection:bg-leaf-vibrant/20 selection:text-primary-container">
     
+    <!-- Top Navigation Bar (Added for consistency) -->
+    <header class="sticky top-0 z-40 bg-surface/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container">
+        <div class="h-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <a class="flex items-center gap-2 group" href="index.html">
+                <img alt="Ink & Thought Logo" class="h-8 w-auto object-contain transition-transform group-hover:scale-105" src="assets/logo.png">
+                <span class="font-headline font-bold text-lg text-on-surface tracking-tight group-hover:text-primary transition-colors">Ink & Thought</span>
+            </a>
+            <div class="flex items-center gap-4">
+               <a href="index.html" class="text-sm font-medium text-on-surface-variant hover:text-primary transition-colors">Feed</a>
+            </div>
+        </div>
+    </header>
+
     <!-- Main View Container -->
     <main class="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-8 md:py-12">
         
@@ -220,6 +235,19 @@
             </div>
         </footer>
     </main>
+    
+    <!-- Minimal FOSS Editorial Footer -->
+    <footer class="w-full bg-surface-container-low border-t border-surface-container mt-auto">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+                <div class="flex items-center gap-2">
+                    <img alt="Ink & Thought Logo" class="h-5 w-auto object-contain" src="assets/logo.png">
+                    <span class="font-headline text-sm font-bold text-on-surface">Ink & Thought</span>
+                </div>
+                <div class="text-on-surface-variant font-mono text-xs">© 2026 Ink & Thought.</div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Connects to our Javascript file -->
     <script src="script/post.js"></script>
