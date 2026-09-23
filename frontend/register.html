@@ -1,0 +1,516 @@
+<!-- Register page (sign up ) -->
+<!DOCTYPE html>
+<html lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="web_blank" name="shell-type">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f9f9ff",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#ecf1ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#85d5ca",
+                        "outline": "#6f7a6d",
+                        "on-surface": "#111c2d",
+                        "background": "#f9f9ff",
+                        "leaf-vibrant": "#57B952",
+                        "tertiary-fixed": "#a1f1e6",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-primary-fixed": "#002106",
+                        "surface-tint": "#006e26",
+                        "on-surface-variant": "#3f493e",
+                        "surface-container": "#e7eeff",
+                        "surface-subtle": "#F8FAFC",
+                        "surface-variant": "#d8e3fb",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f0f3ff",
+                        "tertiary-container": "#006860",
+                        "code-bg": "#0F172A",
+                        "on-tertiary-fixed": "#00201d",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#754900",
+                        "on-primary-fixed-variant": "#00531b",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#263143",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#fdb965",
+                        "primary-fixed-dim": "#68de78",
+                        "on-secondary-fixed": "#2a1700",
+                        "terminal-accent": "#22C55E",
+                        "secondary-fixed": "#ffddb8",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#68de78",
+                        "outline-variant": "#bfcaba",
+                        "tertiary": "#004e48",
+                        "primary-container": "#006b25",
+                        "on-secondary-fixed-variant": "#653e00",
+                        "primary": "#006b25",
+                        "on-primary-container": "#77ed84",
+                        "secondary-container": "#fdb965",
+                        "on-tertiary-fixed-variant": "#00504a",
+                        "on-tertiary-container": "#94e4d9",
+                        "primary-fixed": "#85fb91",
+                        "surface": "#f9f9ff",
+                        "on-background": "#111c2d",
+                        "surface-container-high": "#dee8ff",
+                        "surface-dim": "#cfdaf2",
+                        "secondary": "#855300"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "code-snippet": ["JetBrains Mono"],
+                        "headline-lg": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Outfit"],
+                        "label-md": ["JetBrains Mono"],
+                        "label-sm": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "headline-sm": ["Outfit"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Outfit"],
+                        "display-lg": ["Outfit"],
+                        "badge-label": ["JetBrains Mono"]
+                    }
+                }
+            }
+        };</script>
+</head>
+
+<body
+    class="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-center items-center">
+    <main class="w-full flex-1 flex flex-col items-center justify-center p-4 md:p-8">
+        <div class="flex flex-col w-full items-center justify-center py-6 px-4">
+            <!-- Subtle decorative ambient elements -->
+            <div class="w-full max-w-[560px] relative">
+                <!-- Top System Architecture Monogram / Badge -->
+                <div class="flex items-center justify-between mb-4 px-1">
+                    <div class="flex items-center gap-2">
+                        <!-- <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBK6c2mshHsWi2470DSZjLRGjxJCr9ki8cekUEC1okvOmMt7ykjhP_TmaGHHkFMtBOoRn3gbCd1kJQnC8sJedzV_Z_s0r6VqOVhLhtG2gpruUXzihvKcxod9sCJtOEg7IaByHtAod8LNg6WQQ_jMcxYpqVUHMsUZM_ZNPiDBEx_xfhhURt3aK80HTWZ7mgE3PEx8TrFKA9aqmDSlHaDeAiqzU3gFfV4lXiHC_J4loYiPjwPtEii1luz"
+                            alt="Ink &amp; Thought Logo" class="h-8 w-auto object-contain rounded-lg"> -->
+                            <!-- Logo of ink & Thought -->
+                            <img src="assets/logo.png" alt="Ink & Thought Logo" class="h-8 w-auto object-contain rounded-lg">
+                        <div class="flex flex-col">
+                            <span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">Ink &amp;
+                                Thought</span>
+                            <span
+                                class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Journal
+                                • Kernel • Forum</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Registration Surface Card -->
+                <div
+                    class="w-full bg-surface-container-lowest rounded-xl shadow-sm p-6 sm:p-9 relative overflow-hidden border border-surface-container-high/60">
+                    <!-- Card Header -->
+                    <div class="mb-7">
+                        <h1 class="font-headline-xl text-3xl text-on-surface tracking-tight mb-2 font-bold">Create an Account</h1>
+                        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            Join our independent collective of open-source writers, engineers, and thinkers.
+                        </p>
+                    </div>
+                    <!-- Quick Third-party Developer Integrations -->
+                    <div class="grid grid-cols-3 gap-2.5 mb-6">
+                        <button
+                            class="group flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-all duration-150 border border-surface-container-high/40 hover:border-leaf-vibrant/40"
+                            type="button">
+                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="#181717">
+                                <path clip-rule="evenodd"
+                                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                                    fill-rule="evenodd"></path>
+                            </svg>
+                            <span class="font-label-md text-label-md">GitHub</span>
+                        </button>
+                        <button
+                            class="group flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-all duration-150 border border-surface-container-high/40 hover:border-leaf-vibrant/40"
+                            type="button">
+                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="#FC6D26">
+                                <path
+                                    d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z">
+                                </path>
+                            </svg>
+                            <span class="font-label-md text-label-md">GitLab</span>
+                        </button>
+                        <button
+                            class="group flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface transition-all duration-150 border border-surface-container-high/40 hover:border-leaf-vibrant/40"
+                            type="button">
+                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                                <path
+                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                    fill="#4285F4"></path>
+                                <path
+                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                    fill="#34A853"></path>
+                                <path
+                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                                    fill="#FBBC05"></path>
+                                <path
+                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                                    fill="#EA4335"></path>
+                            </svg>
+                            <span class="font-label-md text-label-md">Google</span>
+                        </button>
+                    </div>
+                    <!-- Divider line with editorial text -->
+                    <div class="relative flex items-center justify-center mb-6">
+                        <div class="w-full h-px bg-surface-container-highest"></div>
+                        <span
+                            class="absolute bg-surface-container-lowest px-3 font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">
+                            or use direct terminal auth
+                        </span>
+                    </div>
+                    <!-- Registration Form -->
+                    <form class="space-y-4" id="registration-form"
+                        onsubmit="event.preventDefault(); handleRegistration();">
+                        <!-- Username input -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="font-body-sm text-body-sm font-medium text-on-surface"
+                                    for="username">Username</label>
+                                <span class="font-label-sm text-label-sm text-on-surface-variant">Unique
+                                    namespace</span>
+                            </div>
+                            <div class="relative flex items-center">
+                                <span
+                                    class="absolute left-3 font-label-md text-label-md text-on-surface-variant select-none">@</span>
+                                <input
+                                    class="w-full h-10 pl-8 pr-3.5 bg-surface-container-low focus:bg-surface-container-lowest focus:ring-2 focus:ring-leaf-vibrant/30 focus:border-leaf-vibrant rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline border border-transparent outline-none transition-all duration-150"
+                                    id="username" name="username" placeholder="alex_dev" required="" type="text">
+                            </div>
+                        </div>
+                        <!-- Email input -->
+                        <div>
+                            <label class="block font-body-sm text-body-sm font-medium text-on-surface mb-1.5"
+                                for="email">Email</label>
+                            <div class="relative flex items-center">
+                                <input
+                                    class="w-full h-10 px-3.5 bg-surface-container-low focus:bg-surface-container-lowest focus:ring-2 focus:ring-leaf-vibrant/30 focus:border-leaf-vibrant rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline border border-transparent outline-none transition-all duration-150"
+                                    id="email" name="email" placeholder="name@domain.org" required="" type="email">
+                                <span
+                                    class="material-symbols-outlined absolute right-3 text-outline text-[18px]">mail</span>
+                            </div>
+                        </div>
+                        <!-- Password input and Strength Indicators -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label class="font-body-sm text-body-sm font-medium text-on-surface"
+                                    for="password">Password</label>
+                                <span class="font-label-sm text-label-sm text-on-surface-variant"
+                                    id="strength-label">min. 8 characters</span>
+                            </div>
+                            <div class="relative flex items-center">
+                                <input
+                                    class="w-full h-10 pl-3.5 pr-10 bg-surface-container-low focus:bg-surface-container-lowest focus:ring-2 focus:ring-leaf-vibrant/30 focus:border-leaf-vibrant rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline border border-transparent outline-none transition-all duration-150"
+                                    id="password" name="password" oninput="checkPasswordStrength(this.value)"
+                                    placeholder="minimum 8 characters" required="" type="password">
+                                <button
+                                    class="absolute right-3 text-outline hover:text-on-surface p-0.5 rounded transition-colors"
+                                    onclick="togglePasswordVisibility('password', this)" type="button">
+                                    <span class="material-symbols-outlined text-[19px]">visibility</span>
+                                </button>
+                            </div>
+                            <!-- Segmented Password Strength Bar -->
+                            <div class="grid grid-cols-4 gap-1.5 mt-2">
+                                <div class="h-1 rounded-full bg-surface-container-high transition-colors duration-200"
+                                    id="bar-1"></div>
+                                <div class="h-1 rounded-full bg-surface-container-high transition-colors duration-200"
+                                    id="bar-2"></div>
+                                <div class="h-1 rounded-full bg-surface-container-high transition-colors duration-200"
+                                    id="bar-3"></div>
+                                <div class="h-1 rounded-full bg-surface-container-high transition-colors duration-200"
+                                    id="bar-4"></div>
+                            </div>
+                        </div>
+                        <!-- Confirm Password input -->
+                        <div>
+                            <label class="block font-body-sm text-body-sm font-medium text-on-surface mb-1.5"
+                                for="confirm-password">Confirm Password</label>
+                            <div class="relative flex items-center">
+                                <input
+                                    class="w-full h-10 pl-3.5 pr-10 bg-surface-container-low focus:bg-surface-container-lowest focus:ring-2 focus:ring-leaf-vibrant/30 focus:border-leaf-vibrant rounded-lg font-body-md text-body-md text-on-surface placeholder:text-outline border border-transparent outline-none transition-all duration-150"
+                                    id="confirm-password" name="confirm-password" oninput="checkPasswordMatch()"
+                                    placeholder="re-enter your password" required="" type="password">
+                                <button
+                                    class="absolute right-3 text-outline hover:text-on-surface p-0.5 rounded transition-colors"
+                                    onclick="togglePasswordVisibility('confirm-password', this)" type="button">
+                                    <span class="material-symbols-outlined text-[19px]">visibility</span>
+                                </button>
+                            </div>
+                            <p class="font-label-sm text-label-sm text-on-surface-variant mt-1 hidden" id="match-hint">
+                            </p>
+                        </div>
+                        <!-- Code of Conduct and Terms Agreement -->
+                        <div class="pt-2">
+                            <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                                <input
+                                    class="mt-1 h-4 w-4 rounded text-leaf-vibrant focus:ring-leaf-vibrant/40 cursor-pointer accent-[#25A244]"
+                                    id="terms-checkbox" required="" type="checkbox">
+                                <span class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                                    I agree to the <a
+                                        class="text-[#006b25] hover:text-leaf-vibrant hover:underline font-medium"
+                                        href="#" style="color: rgb(37, 162, 68);">Terms of Service</a>, Privacy Policy,
+                                    and the community
+                                    <span
+                                        class="inline-flex items-center gap-0.5 text-[#006b25] hover:text-leaf-vibrant font-medium hover:underline"
+                                        style="color: rgb(37, 162, 68);">
+                                        Code of Conduct
+                                        <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                                    </span>.
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Status Message Banner -->
+                        <div class="hidden mt-3 p-3 rounded-lg text-center font-body-sm text-sm transition-all"
+                            id="status-message"></div>
+
+                        <!-- Primary Submit Button -->
+                        <div class="pt-2">
+                            <button
+                                class="w-full py-2.5 px-4 rounded-lg bg-primary hover:bg-[#00551c] text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-sm transition-all duration-150 active:scale-[0.99]"
+                                id="submit-btn" type="submit" style="background-color: rgb(37, 162, 68);">
+                                <span class="">Create Account</span>
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Bottom Card Metadata & Log-in switch -->
+                    <div
+                        class="mt-7 pt-5 bg-surface-container-low -mx-6 -mb-6 sm:-mx-9 sm:-mb-9 px-6 sm:px-9 pb-6 text-center border-t border-surface-container-high/60">
+                        <p class="font-body-md text-body-md text-on-surface-variant">
+                            Already have an account?
+                            <!-- UPDATED HREF -->
+                            <a class="text-[#006b25] hover:text-leaf-vibrant font-medium hover:underline ml-1 inline-flex items-center gap-0.5"
+                                href="login.html" style="color: rgb(37, 162, 68);">
+                                Login here
+                                <span class="material-symbols-outlined text-[15px]">arrow_outward</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function togglePasswordVisibility(fieldId, btn) {
+                const field = document.getElementById(fieldId);
+                const icon = btn.querySelector('.material-symbols-outlined');
+                if (field.type === 'password') {
+                    field.type = 'text';
+                    icon.textContent = 'visibility_off';
+                } else {
+                    field.type = 'password';
+                    icon.textContent = 'visibility';
+                }
+            }
+
+            function checkPasswordStrength(val) {
+                const bar1 = document.getElementById('bar-1');
+                const bar2 = document.getElementById('bar-2');
+                const bar3 = document.getElementById('bar-3');
+                const bar4 = document.getElementById('bar-4');
+                const label = document.getElementById('strength-label');
+
+                const hasLength = val.length >= 8;
+                const hasNum = /\d/.test(val);
+                const hasSpecial = /[^A-Za-z0-9]/.test(val);
+                const hasCase = /[a-z]/.test(val) && /[A-Z]/.test(val);
+
+                let score = 0;
+                if (hasLength) score++;
+                if (hasNum) score++;
+                if (hasSpecial) score++;
+                if (hasCase) score++;
+
+                const resetBars = () => {
+                    [bar1, bar2, bar3, bar4].forEach(b => {
+                        b.className = 'h-1 rounded-full bg-surface-container-high transition-colors duration-200';
+                    });
+                };
+
+                resetBars();
+
+                if (val.length === 0) {
+                    label.textContent = 'min. 8 characters';
+                    label.className = 'font-label-sm text-label-sm text-on-surface-variant';
+                    return;
+                }
+
+                if (score <= 1) {
+                    bar1.className = 'h-1 rounded-full bg-error transition-colors duration-200';
+                    label.textContent = 'weak entropy';
+                    label.className = 'font-label-sm text-label-sm text-error';
+                } else if (score === 2) {
+                    bar1.className = 'h-1 rounded-full bg-[#FEA619] transition-colors duration-200';
+                    bar2.className = 'h-1 rounded-full bg-[#FEA619] transition-colors duration-200';
+                    label.textContent = 'fair entropy';
+                    label.className = 'font-label-sm text-label-sm text-[#F59E0B] font-medium';
+                } else if (score === 3) {
+                    bar1.className = 'h-1 rounded-full bg-[#57B952] transition-colors duration-200';
+                    bar2.className = 'h-1 rounded-full bg-[#57B952] transition-colors duration-200';
+                    bar3.className = 'h-1 rounded-full bg-[#57B952] transition-colors duration-200';
+                    label.textContent = 'good entropy';
+                    label.className = 'font-label-sm text-label-sm text-[#006b25] font-medium';
+                } else {
+                    [bar1, bar2, bar3, bar4].forEach(b => {
+                        b.className = 'h-1 rounded-full bg-leaf-vibrant transition-colors duration-200';
+                    });
+                    label.textContent = 'strong entropy';
+                    label.className = 'font-label-sm text-label-sm text-primary font-semibold';
+                }
+            }
+
+            function checkPasswordMatch() {
+                const pwd = document.getElementById('password').value;
+                const confirm = document.getElementById('confirm-password').value;
+                const hint = document.getElementById('match-hint');
+
+                if (!confirm) {
+                    hint.classList.add('hidden');
+                    return;
+                }
+
+                hint.classList.remove('hidden');
+                if (pwd === confirm) {
+                    hint.textContent = 'Passwords match seamlessly';
+                    hint.className = 'font-label-sm text-label-sm text-[#006b25] mt-1';
+                } else {
+                    hint.textContent = 'Passwords do not match';
+                    hint.className = 'font-label-sm text-label-sm text-error mt-1';
+                }
+            }
+
+            // UPDATED JWT REGISTRATION FETCH LOGIC
+            async function handleRegistration() {
+                const username = document.getElementById('username').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+
+                const banner = document.getElementById('status-message');
+                const btn = document.getElementById('submit-btn');
+
+                // Basic frontend validation to stop submission if passwords don't match
+                if (password !== confirmPassword) {
+                    banner.classList.remove('hidden', 'bg-leaf-vibrant/10', 'text-primary');
+                    banner.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300');
+                    banner.innerHTML = 'Validation Error: Passwords do not match.';
+                    return;
+                }
+
+                const originalText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = `
+      <span class="inline-block w-4 h-4 border-2 border-on-primary border-t-transparent rounded-full animate-spin"></span>
+      <span>Generating Cryptographic Keys...</span>
+    `;
+
+                try {
+                    // Adjust this endpoint URL to match your Django user registration view
+                    const response = await fetch('http://127.0.0.1:8000/api/register/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            username: username,
+                            email: email,
+                            password: password
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        banner.classList.remove('hidden', 'bg-red-100', 'text-red-700', 'border-red-300');
+                        banner.classList.add('bg-leaf-vibrant/10', 'text-on-surface-variant', 'border', 'border-leaf-vibrant/30');
+                        btn.innerHTML = `
+              <span class="material-symbols-outlined text-[18px]">done</span>
+              <span>Account Provisioned!</span>
+            `;
+                        banner.innerHTML = '<span class="font-medium text-primary">Registration successful.</span> Redirecting to terminal...';
+
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 1500);
+                    } else {
+                        // Display backend errors (e.g., username already taken)
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                        banner.classList.remove('hidden', 'bg-leaf-vibrant/10', 'text-primary');
+                        banner.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300');
+
+                        // Format generic DRF validation errors for UI
+                        let errorMsg = 'Failed to create account.';
+                        if (data) {
+                            const firstKey = Object.keys(data)[0];
+                            if (data[firstKey] && Array.isArray(data[firstKey])) {
+                                errorMsg = `${firstKey}: ${data[firstKey][0]}`;
+                            }
+                        }
+                        banner.innerHTML = errorMsg;
+                    }
+                } catch (error) {
+                    console.error('Registration Error:', error);
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    banner.classList.remove('hidden', 'bg-leaf-vibrant/10', 'text-primary');
+                    banner.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300');
+                    banner.innerHTML = 'Unable to connect to the authentication server.';
+                }
+            }
+        </script>
+    </main>
+
+</body>
+
+</html>
