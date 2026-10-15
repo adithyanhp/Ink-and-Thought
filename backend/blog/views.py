@@ -47,9 +47,25 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data)
 
+
+# CommentViewSet handles CRUD operations for comments. It includes a custom get_queryset method to filter comments based on the post they belong to, allowing the frontend to fetch only relevant comments for a specific post.
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    # NEW: Filter comments so we only return the ones for the requested post
+    def get_queryset(self):
+        # Start with all comments
+        queryset = super().get_queryset()
+        
+        # Check if the frontend sent a '?post=' number in the URL
+        post_id = self.request.query_params.get('post')
+        
+        # If they did, filter the list to only show comments for that post
+        if post_id is not None:
+            queryset = queryset.filter(post_id=post_id)
+            
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
