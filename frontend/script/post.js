@@ -114,28 +114,34 @@ async function togglePostLike() {
     }
 }
 
-// This function is called when the user clicks the like button. It checks if the user is logged in, sends a request to toggle the like status for the post, and updates the like count on the page accordingly.
-// --- NEW: Load Comments Logic ---
+// This function is called when the user clicks the like button. It checks if the user is logged in, sends a request to the backend to toggle the like status for the current post, and then refreshes the post data to reflect any changes in the like count.
+// --- NEW: Load Comments Logic (With Edit/Delete UI) ---
+// This version asks Django who is currently logged in, and if their username matches the comment author, it adds the buttons!
+// --- NEW: Load Comments Logic (With Timestamps & Modal UI Triggers) ---
 async function loadComments() {
     try {
-        // FIXED URL: We now hit /api/comments/ and filter by the post ID
-        const response = await fetch(`http://127.0.0.1:8000/api/comments/?post=${postId}`);
-        
-        if (!response.ok) {
-            throw new Error("Could not fetch comments");
+        let currentUser = null;
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            const userRes = await fetch('http://127.0.0.1:8000/api/users/me/', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (userRes.ok) {
+                const userData = await userRes.json();
+                currentUser = userData.username; 
+            }
         }
+
+        const response = await fetch(`http://127.0.0.1:8000/api/comments/?post=${postId}`);
+        if (!response.ok) throw new Error("Could not fetch comments");
         
         const comments = await response.json();
-        
         const commentsList = document.getElementById('comments-list');
         const sectionCount = document.getElementById('section-comments-count');
         
         if (commentsList) {
             commentsList.innerHTML = ''; 
-            
-            if (sectionCount) {
-                sectionCount.innerText = comments.length;
-            }
+            if (sectionCount) sectionCount.innerText = comments.length;
 
             if (comments.length === 0) {
                 commentsList.innerHTML = '<p class="text-on-surface-variant text-sm text-center">No comments yet. Be the first to share your thoughts!</p>';
@@ -143,9 +149,24 @@ async function loadComments() {
             }
 
             comments.forEach(comment => {
-                const firstLetter = comment.author ? comment.author.charAt(0).toUpperCase() : 'U';
                 const authorName = comment.author || 'User';
-                const date = new Date(comment.created_at).toLocaleDateString();
+                const firstLetter = authorName.charAt(0).toUpperCase();
+                
+                // --- NEW: Formatted Date & Time (e.g., Oct 15, 2026 at 2:41 PM) ---
+                const dateObj = new Date(comment.created_at);
+                const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const formattedTime = dateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+                const fullDateTime = `${formattedDate} at ${formattedTime}`;
+
+                const isOwner = (currentUser === authorName);
+                
+                // --- NEW: Buttons now trigger the modern modals ---
+                const ownerActionsHTML = isOwner ? `
+                    <div class="flex gap-4 mt-3 pt-3 border-t border-surface-container">
+                        <button onclick="openEditModal(${comment.id})" class="text-xs font-semibold text-primary hover:text-primary-container transition-colors">Edit</button>
+                        <button onclick="openDeleteModal(${comment.id})" class="text-xs font-semibold text-error hover:text-error/80 transition-colors">Delete</button>
+                    </div>
+                ` : '';
 
                 const commentHTML = `
                     <div class="bg-surface-container-lowest border border-surface-container-high rounded-xl p-4 shadow-sm">
@@ -155,10 +176,11 @@ async function loadComments() {
                             </div>
                             <div>
                                 <p class="font-semibold text-sm text-on-surface">${authorName}</p>
-                                <p class="text-xs text-on-surface-variant">${date}</p>
+                                <p class="text-xs text-on-surface-variant">${fullDateTime}</p>
                             </div>
                         </div>
-                        <p class="text-on-surface text-sm leading-relaxed">${comment.content}</p>
+                        <p class="text-on-surface text-sm leading-relaxed whitespace-pre-wrap" id="comment-content-${comment.id}">${comment.content}</p>
+                        ${ownerActionsHTML}
                     </div>
                 `;
                 commentsList.innerHTML += commentHTML;
@@ -166,12 +188,10 @@ async function loadComments() {
         }
     } catch (error) {
         console.error('Error loading comments:', error);
-        const commentsList = document.getElementById('comments-list');
-        if (commentsList) {
-            commentsList.innerHTML = '<p class="text-error text-center">Failed to load comments.</p>';
-        }
+        document.getElementById('comments-list').innerHTML = '<p class="text-error text-center">Failed to load comments.</p>';
     }
 }
+
 
 // This function fetches comments for the current post and displays them in the comments section. It also updates the comment count displayed on the page. If there are no comments, it shows a friendly message encouraging users to comment.
 // --- NEW: Submit Comment Logic ---
@@ -225,6 +245,98 @@ async function submitComment() {
     } finally {
         submitBtn.innerText = "Post Comment";
         submitBtn.disabled = false;
+    }
+}
+
+
+
+// --- NEW: Modern Modal Logic for Edit & Delete ---
+
+let activeCommentId = null; // Remembers which comment we are editing or deleting
+
+function closeModals() {
+    document.getElementById('modal-overlay').classList.add('hidden');
+    document.getElementById('modal-overlay').classList.remove('flex');
+    document.getElementById('delete-modal').classList.add('hidden');
+    document.getElementById('edit-modal').classList.add('hidden');
+    activeCommentId = null;
+}
+
+function openDeleteModal(commentId) {
+    activeCommentId = commentId;
+    document.getElementById('modal-overlay').classList.remove('hidden');
+    document.getElementById('modal-overlay').classList.add('flex');
+    document.getElementById('delete-modal').classList.remove('hidden');
+}
+
+function openEditModal(commentId) {
+    activeCommentId = commentId;
+    // Grab the existing text from the page and put it in the modal's text box
+    const currentText = document.getElementById(`comment-content-${commentId}`).innerText;
+    document.getElementById('edit-comment-input').value = currentText;
+    
+    document.getElementById('modal-overlay').classList.remove('hidden');
+    document.getElementById('modal-overlay').classList.add('flex');
+    document.getElementById('edit-modal').classList.remove('hidden');
+}
+
+async function confirmDeleteComment() {
+    if (!activeCommentId) return;
+
+    const token = localStorage.getItem('access_token');
+    const btn = document.getElementById('confirm-delete-btn');
+    btn.innerText = "Deleting...";
+    
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/comments/${activeCommentId}/`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+            closeModals();
+            loadComments(); 
+            getSinglePost(); 
+        } else {
+            alert("Failed to delete comment.");
+        }
+    } catch (error) {
+        console.error("Error deleting comment:", error);
+    } finally {
+        btn.innerText = "Delete";
+    }
+}
+
+async function confirmEditComment() {
+    if (!activeCommentId) return;
+
+    const newText = document.getElementById('edit-comment-input').value.trim();
+    if (newText === "") return;
+
+    const token = localStorage.getItem('access_token');
+    const btn = document.getElementById('confirm-edit-btn');
+    btn.innerText = "Saving...";
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/comments/${activeCommentId}/`, {
+            method: 'PATCH', 
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            },
+            body: JSON.stringify({ content: newText })
+        });
+
+        if (response.ok) {
+            closeModals();
+            loadComments(); 
+        } else {
+            alert("Failed to update comment.");
+        }
+    } catch (error) {
+        console.error("Error updating comment:", error);
+    } finally {
+        btn.innerText = "Save Changes";
     }
 }
 

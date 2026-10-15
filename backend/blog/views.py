@@ -48,27 +48,37 @@ class PostViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-# CommentViewSet handles CRUD operations for comments. It includes a custom get_queryset method to filter comments based on the post they belong to, allowing the frontend to fetch only relevant comments for a specific post.
+# comment viewset to handle comment-related operations. It allows for CRUD operations on comments and includes logic to ensure that users can only edit or delete their own comments.
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-    # NEW: Filter comments so we only return the ones for the requested post
+    # Override the default queryset to allow filtering comments by post ID. This enables the frontend to fetch comments specific to a particular post.
     def get_queryset(self):
-        # Start with all comments
         queryset = super().get_queryset()
-        
-        # Check if the frontend sent a '?post=' number in the URL
         post_id = self.request.query_params.get('post')
-        
-        # If they did, filter the list to only show comments for that post
         if post_id is not None:
             queryset = queryset.filter(post_id=post_id)
-            
         return queryset
-
+    
+    # Override the creation process to automatically set the author of the comment to the logged-in user
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    # NEW: Intercept delete requests to ensure the user owns the comment
+    def destroy(self, request, *args, **kwargs):
+        comment = self.get_object()
+        if comment.author != request.user:
+            return Response({"detail": "You cannot delete someone else's comment."}, status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)
+
+    # NEW: Intercept edit requests to ensure the user owns the comment
+    def update(self, request, *args, **kwargs):
+        comment = self.get_object()
+        if comment.author != request.user:
+            return Response({"detail": "You cannot edit someone else's comment."}, status=status.HTTP_403_FORBIDDEN)
+        return super().update(request, *args, **kwargs)
+    
 
 
 # LikeViewSet handles the "like" functionality for posts. It allows users to like or unlike a post. The create method is overridden to implement a toggle effect: if the user has already liked the post, it will remove the like; otherwise, it will add a new like.
