@@ -1,0 +1,202 @@
+<!-- Create or Edit Blog/ Posts editor Page -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&amp;display=swap" rel="stylesheet" />
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    
+    <style>
+        @layer base {
+            html, body { margin: 0; padding: 0; }
+            body { overscroll-behavior: none; }
+        }
+        ::-webkit-scrollbar { display: none; }
+        
+        /* Quill Overrides */
+        .ql-toolbar.ql-snow, .ql-container.ql-snow { border: none !important; }
+        .ql-editor { padding: 0 !important; font-family: inherit !important; font-size: inherit !important; min-height: 500px; }
+        .ql-editor.ql-blank::before { left: 0 !important; font-style: normal !important; color: rgba(109, 122, 119, 0.4) !important; }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: { extend: { colors: { primary: "#006860", secondary: "#855300", "on-primary-fixed-variant": "#00504a", "amber-highlight": "#FEF3C7", "on-primary-container": "#f3fffc", "surface-bright": "#f8f9ff", "surface-tint": "#006a63", "terminal-black": "#0E1214", tertiary: "#585d60", "surface-container-high": "#dce9ff", "secondary-container": "#fea619", "teal-soft": "#D1F2EE", "primary-fixed-dim": "#72d7cd", "surface-container": "#e5eeff", "tertiary-container": "#707579", "surface-container-lowest": "#ffffff", "amber-accent": "#F59E0B", "on-tertiary-fixed-variant": "#42474b", "inverse-surface": "#213145", "on-secondary": "#ffffff", "primary-container": "#00837a", "charcoal-dark": "#181D20", "on-tertiary-fixed": "#171c1f", "secondary-fixed-dim": "#ffb95f", background: "#f8f9ff", "teal-deep": "#086F68", "inverse-primary": "#72d7cd", surface: "#f8f9ff", "surface-dim": "#cbdbf5", "secondary-fixed": "#ffddb8", outline: "#6d7a77", "surface-container-highest": "#d3e4fe", "on-error": "#ffffff", "error-container": "#ffdad6", "tertiary-fixed": "#dfe3e7", "on-tertiary": "#ffffff", error: "#ba1a1a", "on-error-container": "#93000a", "on-surface": "#0b1c30", "on-surface-variant": "#3d4947", "inverse-on-surface": "#eaf1ff", "on-primary-fixed": "#00201d", "on-secondary-container": "#684000", "on-secondary-fixed": "#2a1700", "on-primary": "#ffffff", "on-background": "#0b1c30", "on-secondary-fixed-variant": "#653e00", "surface-variant": "#d3e4fe", "outline-variant": "#bdc9c6", "on-tertiary-container": "#fbfdff", "primary-fixed": "#8ef4e9", "tertiary-fixed-dim": "#c2c7cb", "surface-container-low": "#eff4ff" }, borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" }, spacing: { "gutter-mobile": "1rem", "space-sm": "0.75rem", "container-max": "1240px", "gutter-desktop": "1.5rem", "space-xl": "2rem", "space-md": "1rem", "space-3xl": "4rem", "space-xs": "0.5rem", "article-max": "760px", "space-2xl": "3rem", "space-2xs": "0.25rem", "space-lg": "1.5rem" }, fontFamily: { "body-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Space Grotesk"], "headline-lg": ["Space Grotesk"], "display-hero-mobile": ["Space Grotesk"], "body-lg": ["Plus Jakarta Sans"], "display-hero": ["Space Grotesk"], "headline-md": ["Space Grotesk"], "label-code": ["JetBrains Mono"], "label-badge": ["JetBrains Mono"], "headline-lg-mobile": ["Space Grotesk"], "body-reading": ['"Source Serif 4"'] } } }
+        };
+    </script>
+</head>
+
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased">
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-surface-container">
+        <div class="h-16 max-w-[1240px] mx-auto px-gutter-desktop flex items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-md shrink-0">
+                <img alt="Ink &amp; Thought Logo" class="h-8 w-auto object-contain" src="assets/logo.png" />
+                <div class="flex items-center gap-space-xs">
+                    <a class="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight hover:text-primary transition-colors" href="index.html">Ink &amp; Thought</a>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center flex-1 max-w-md mx-space-md">
+                <div class="relative w-full flex items-center">
+                    <span class="material-symbols-outlined absolute left-space-sm text-outline pointer-events-none text-body-md">search</span>
+                    <input class="w-full pl-space-xl pr-space-md py-space-xs bg-surface-container-lowest text-on-surface font-body-sm text-body-sm rounded-full border border-outline-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-outline" placeholder="Search articles..." type="text" />
+                </div>
+            </div>
+            <div class="flex items-center gap-space-sm shrink-0">
+                <a class="inline-flex items-center gap-space-2xs px-space-md py-space-xs rounded-lg bg-primary text-on-primary font-body-sm font-semibold text-body-sm hover:bg-primary-container active:scale-[0.99] transition-all shadow-sm" href="editor.html" style="background-color: rgb(34, 197, 94); color: rgb(255, 255, 255);">
+                    <span class="material-symbols-outlined text-body-md">add</span><span>Create Post</span>
+                </a>
+                <div class="relative pl-space-xs flex items-center">
+                    <img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-primary/20" src="https://ui-avatars.com/api/?name=User&background=006860&color=fff" />
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full pt-16 bg-background">
+        <div class="max-w-[1240px] mx-auto px-gutter-desktop py-space-xl">
+            <div class="flex flex-col w-full">
+                <!-- Status Strip -->
+                <aside class="w-full bg-surface-container-lowest shadow-sm border border-outline-variant/30 rounded-xl px-space-md md:px-space-lg py-space-sm mb-space-xl flex flex-wrap items-center justify-between gap-space-md">
+                    <div class="flex items-center gap-space-md min-w-0">
+                        <div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm truncate">
+                            <span class="hover:text-primary transition-colors font-medium">Drafts</span>
+                            <span class="text-outline font-bold">/</span>
+                            <span class="text-on-surface font-semibold truncate" id="editorModeLabel">New Post</span>
+                        </div>
+                        <div class="inline-flex items-center gap-space-2xs px-space-xs py-space-2xs rounded-full font-label-badge font-semibold shrink-0" style="background-color: rgb(220, 252, 231); color: rgb(21, 128, 61);">
+                            <span class="material-symbols-outlined text-body-sm" style="font-variation-settings: 'FILL' 1">check_circle</span>
+                            <span id="saveStatus">Ready</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-space-sm shrink-0">
+                        <button id="previewBtn" class="inline-flex items-center gap-space-2xs px-space-md py-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm font-semibold text-body-sm transition-all">
+                            <span class="material-symbols-outlined text-body-md text-primary">visibility</span>
+                            <span class="hidden md:inline">Preview</span>
+                        </button>
+                        <button id="toggleSettingsBtn" aria-label="Open post metadata settings" class="inline-flex items-center justify-center p-space-xs rounded-lg bg-surface-container text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors">
+                            <span class="material-symbols-outlined text-headline-sm">tune</span>
+                        </button>
+                    </div>
+                </aside>
+
+                <div class="relative w-full flex flex-col lg:flex-row gap-space-xl items-start">
+                    <main class="w-full flex-1 max-w-[760px] mx-auto flex flex-col">
+                        <!-- Title & Subtitle -->
+                        <div class="w-full mb-space-xs">
+                            <textarea id="articleTitle" class="w-full bg-transparent text-on-background font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold tracking-tight resize-none border-none outline-none focus:outline-none placeholder:text-outline/40 leading-tight" placeholder="Title of your story..." rows="2"></textarea>
+                        </div>
+                        <div class="w-full mb-space-lg">
+                            <input id="articleSubtitle" class="w-full bg-transparent text-on-surface-variant font-headline-sm text-headline-sm italic border-none outline-none focus:outline-none placeholder:text-outline/50" placeholder="Add an evocative subtitle or thesis statement..." type="text" />
+                        </div>
+                        
+                        <!-- WYSIWYG Formatting Toolbar -->
+                        <div id="custom-toolbar" class="sticky top-20 z-40 w-full mb-space-lg bg-surface-container-lowest/95 backdrop-blur-md rounded-xl p-space-2xs shadow-md border border-outline-variant/30 flex items-center justify-between gap-space-xs overflow-x-auto">
+                            <div class="flex items-center gap-space-2xs">
+                                <button type="button" id="t-h1" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors font-headline-sm font-bold text-body-sm">H1</button>
+                                <button type="button" id="t-h2" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors font-headline-sm font-semibold text-body-sm">H2</button>
+                                <button type="button" id="t-quote" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-body-md">format_quote</span></button>
+                                <button type="button" id="t-code" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-body-md">code_blocks</span></button>
+                                <div class="w-px h-5 bg-outline-variant/40 mx-space-2xs"></div>
+                                <button type="button" id="t-bold" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-body-md">format_bold</span></button>
+                                <button type="button" id="t-italic" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-body-md">format_italic</span></button>
+                                <button type="button" id="t-link" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-body-md">link</span></button>
+                                <div class="w-px h-5 bg-outline-variant/40 mx-space-2xs"></div>
+                                <button type="button" id="t-bullet" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-body-md">format_list_bulleted</span></button>
+                                <button type="button" id="t-number" class="p-space-xs rounded-lg hover:bg-teal-soft text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-body-md">format_list_numbered</span></button>
+                            </div>
+                        </div>
+
+                        <!-- Content Area -->
+                        <article class="w-full flex flex-col font-body-reading text-body-reading text-on-surface leading-relaxed">
+                            <figure class="mb-space-xl w-full group relative rounded-xl overflow-hidden bg-surface-container shadow-md border border-outline-variant/30">
+                                <div class="relative w-full aspect-[16/9] overflow-hidden">
+                                    <img id="coverPreview" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://placehold.co/1200x675/e7eeff/111c2d?text=Upload+Cover+Image" alt="Cover" />
+                                    <div class="absolute inset-0 bg-terminal-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-space-sm">
+                                        <input type="file" id="articleImage" accept="image/*" class="hidden" />
+                                        <button type="button" onclick="document.getElementById('articleImage').click()" class="inline-flex items-center gap-space-2xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest text-on-surface font-body-sm font-semibold text-body-sm shadow-lg hover:scale-105">
+                                            <span class="material-symbols-outlined text-body-md text-primary">cloud_upload</span><span>Upload Cover</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </figure>
+
+                            <div id="editor-container" class="prose prose-teal prose-lg max-w-none text-on-surface"></div>
+                        </article>
+                    </main>
+
+                    <!-- Sidebar -->
+                    <aside id="settingsSidebar" class="w-full lg:w-80 bg-surface-container-lowest rounded-xl p-space-lg shadow-md border border-outline-variant/30 flex flex-col gap-space-lg shrink-0">
+                        <div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20">
+                            <h2 class="font-headline-sm text-headline-sm text-on-surface font-bold flex items-center gap-space-xs">
+                                <span class="material-symbols-outlined text-primary">settings_suggest</span> Story Settings
+                            </h2>
+                            <button type="button" id="closeSettingsBtn" class="text-outline hover:text-on-surface p-space-2xs"><span class="material-symbols-outlined">close</span></button>
+                        </div>
+                        
+                        <!-- Tags -->
+                        <div class="flex flex-col gap-space-xs mt-space-md">
+                            <label class="font-body-sm font-semibold text-on-surface">Tags</label>
+                            <div class="flex flex-wrap items-center gap-space-xs" id="tagsContainer">
+                                <div class="inline-flex items-center px-space-xs py-space-2xs rounded-full bg-surface-container border border-outline-variant/30">
+                                    <span class="material-symbols-outlined text-body-sm text-outline mr-space-2xs">add</span>
+                                    <input id="tagInput" class="bg-transparent border-none outline-none text-on-surface w-24 text-label-badge placeholder:text-outline" placeholder="Add tag..." type="text" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="flex flex-col gap-space-xs mt-space-md">
+                            <div class="flex items-center justify-between mb-1">
+                                <label class="font-body-sm font-semibold text-on-surface">Category</label>
+                                <div class="flex gap-2">
+                                    <button type="button" id="addCatBtn" class="text-xs font-semibold text-primary hover:underline">+ Add</button>
+                                    <button type="button" id="editCatBtn" class="text-xs font-semibold text-primary hover:underline">Edit</button>
+                                    <button type="button" id="deleteCatBtn" class="text-xs font-semibold text-error hover:underline">Delete</button>
+                                </div>
+                            </div>
+                            <select id="articleCategory" class="w-full rounded-lg bg-surface-container-low px-space-sm py-space-xs text-on-surface border border-outline-variant/40 outline-none"></select>
+                        </div>
+
+                        <!-- Synopsis -->
+                        <div class="flex flex-col gap-space-xs mt-space-md">
+                            <label class="font-body-sm font-semibold text-on-surface">Synopsis</label>
+                            <textarea id="articleSynopsis" class="w-full rounded-lg bg-surface-container-low p-space-sm text-on-surface border border-outline-variant/40 resize-none" rows="3" placeholder="Write a short summary..."></textarea>
+                        </div>
+                    </aside>
+                </div>
+                
+                <!-- Publishing Dock -->
+                <footer class="w-full mt-space-2xl bg-surface-container-lowest rounded-xl shadow-md border border-outline-variant/30 p-space-md flex justify-between items-center sticky bottom-4 z-30">
+                    <div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm">
+                        <span class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" style="background-color: rgb(34, 197, 94)"></span>
+                        <span>Saving supported</span>
+                    </div>
+                    <div class="flex items-center gap-space-sm">
+                        <button type="button" id="saveDraftBtn" class="px-space-md py-space-xs rounded-lg bg-surface-container text-on-surface font-semibold hover:bg-surface-container-high transition-all">Save Draft</button>
+                        <button type="button" id="publishBtn" class="inline-flex items-center gap-space-xs px-space-lg py-space-xs rounded-lg font-bold shadow-sm transition-all" style="background-color: rgb(34, 197, 94); color: white;">
+                            <span class="material-symbols-outlined text-body-md">send</span><span>Publish Post</span>
+                        </button>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Quill.js Library and your Custom Logic -->
+    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+    <!-- We removed defer to ensure the script runs immediately without cache issues -->
+    <script src="script/editor.js"></script>
+    <script>
+        document.getElementById("toggleSettingsBtn")?.addEventListener("click", () => document.getElementById("settingsSidebar").classList.toggle("hidden"));
+        document.getElementById("closeSettingsBtn")?.addEventListener("click", () => document.getElementById("settingsSidebar").classList.add("hidden"));
+    </script>
+</body>
+</html>

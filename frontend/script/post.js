@@ -52,8 +52,26 @@ async function getSinglePost() {
         likesCountElement.innerText = postData.likes_count || 0;
         commentsCountElement.innerText = postData.comments ? postData.comments.length : 0;
 
-        // Inject the content (using innerHTML allows basic formatting like paragraphs if your backend sends it)
-        contentElement.innerHTML = `<p>${postData.content}</p>`;
+        // --- NEW: Inject the post content into the page ---
+        contentElement.innerHTML = postData.content;
+
+        // --- NEW: Unhide Edit Button if the logged-in user is the author ---
+        const token = localStorage.getItem('access_token');
+        if (token) {
+            const userRes = await fetch('http://127.0.0.1:8000/api/users/me/', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (userRes.ok) {
+                const userData = await userRes.json();
+                if (userData.username === postData.author) {
+                    const editBtn = document.getElementById('edit-post-btn');
+                    if (editBtn) {
+                        editBtn.style.display = 'inline-flex';
+                        editBtn.href = `editor.html?id=${postId}`;
+                    }
+                }
+            }
+        }
 
     } catch (error) {
         console.error("Something went wrong:", error);
