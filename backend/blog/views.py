@@ -5,9 +5,10 @@
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.generics import CreateAPIView, ListAPIView # Added ListAPIView
 from django.contrib.auth import get_user_model
 from .models import Post, Comment, Like
-from .serializers import UserSerializer, PostSerializer, CommentSerializer, LikeSerializer, RegisterSerializer
+from .serializers import UserSerializer, PostSerializer, CommentSerializer, LikeSerializer, RegisterSerializer, PostFeedSerializer
 from rest_framework.permissions import AllowAny
 
 
@@ -110,4 +111,11 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     # We will import this from your serializers file next
     serializer_class = RegisterSerializer
+
+
+# PostFeedListAPIView is a generic view that provides a summarized list of posts for the main feed. It uses the PostFeedSerializer to return essential information about each post, including the author's username and profile picture, as well as counts for likes and comments. The permission_classes = [AllowAny] line means that anyone can view the main feed without needing to be logged in.
+class PostFeedListAPIView(ListAPIView):
+    queryset = Post.objects.all().order_by('-created_at')
+    serializer_class = PostFeedSerializer
+    permission_classes = [AllowAny] # Anyone can view the main feed
 

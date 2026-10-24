@@ -61,4 +61,29 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
+# PostFeedSerializer is designed to provide a summarized view of posts for the feed. It includes the author's username and profile picture, as well as counts for likes and comments, making it suitable for displaying in a feed or list view.
+class PostFeedSerializer(serializers.ModelSerializer):
+    # Grab the author's username and profile picture
+    author_name = serializers.ReadOnlyField(source='author.username')
+    author_image = serializers.ImageField(source='author.profile_picture', read_only=True)
+    
+    # Calculate totals for the feed cards
+    likes_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        # Notice we use 'synopsis' here to match your model!
+        fields = [
+            'id', 'title', 'slug', 'synopsis', 'category', 'image', 
+            'author_name', 'author_image', 'created_at', 
+            'likes_count', 'comments_count'
+        ]
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
+
     

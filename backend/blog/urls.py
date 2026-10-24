@@ -6,7 +6,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import UserViewSet, PostViewSet, CommentViewSet, LikeViewSet, RegisterView
+from .views import UserViewSet, PostViewSet, CommentViewSet, LikeViewSet, RegisterView, PostFeedListAPIView
 
 
 # DefaultRouter automatically generates RESTful URL patterns for our ViewSets.
@@ -27,17 +27,23 @@ router.register(r'comments', CommentViewSet)
 router.register(r'likes', LikeViewSet)
 
 urlpatterns = [
+
+    # 1. Custom endpoints MUST go before the router include!
+    path('api/feed/', PostFeedListAPIView.as_view(), name='api-feed'),
+
     # The empty string '' here means all router URLs will be prefixed with 'api/'
     # as defined in this list. 
+    # 2. The router catches everything else starting with api/
     path('api/', include(router.urls)),
 
-    # 1. Registration endpoint (Creates the user)
+    # 3. Registration endpoint (Creates the user)
     path('api/register/', RegisterView.as_view(), name='auth_register'),
     
-    # 2. Login endpoint (Returns the JWT when given a valid username/password)
+    # 4. Login endpoint (Returns the JWT when given a valid username/password)
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), 
     
-    # 3. Refresh endpoint (Renews the token before it expires)
+    # 5. Refresh endpoint (Renews the token before it expires)
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
     
 ]
