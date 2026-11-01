@@ -7,19 +7,24 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        # Added the new fields matching your frontend profile.html
         fields = [
             'id', 
             'username', 
             'email', 
+            'first_name',
+            'last_name',
             'profile_picture', 
             'bio', 
             'location', 
             'website'
         ]
+        # ADDED: Make core identity fields read-only so they safely load without being overwritten
+        read_only_fields = ['id', 'username', 'email']
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
+    # NEW: Send the comment author's profile picture
+    author_image = serializers.ImageField(source='author.profile_picture', read_only=True)
 
     class Meta:
         model = Comment
@@ -34,6 +39,8 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
+    # NEW: Send the post author's profile picture
+    author_image = serializers.ImageField(source='author.profile_picture', read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
     likes_count = serializers.SerializerMethodField()
 
@@ -49,11 +56,9 @@ class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'password', 'email')
-        # write_only ensures the password is never sent back to the frontend in a response
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        # create_user automatically hashes the password for us
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email', ''),
@@ -63,17 +68,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 # PostFeedSerializer is designed to provide a summarized view of posts for the feed. It includes the author's username and profile picture, as well as counts for likes and comments, making it suitable for displaying in a feed or list view.
 class PostFeedSerializer(serializers.ModelSerializer):
-    # Grab the author's username and profile picture
     author_name = serializers.ReadOnlyField(source='author.username')
     author_image = serializers.ImageField(source='author.profile_picture', read_only=True)
     
-    # Calculate totals for the feed cards
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        # Notice we use 'synopsis' here to match your model!
         fields = [
             'id', 'title', 'slug', 'synopsis', 'category', 'image', 
             'author_name', 'author_image', 'created_at', 
@@ -85,5 +87,3 @@ class PostFeedSerializer(serializers.ModelSerializer):
 
     def get_comments_count(self, obj):
         return obj.comments.count()
-
-    

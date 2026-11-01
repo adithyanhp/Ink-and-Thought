@@ -10,6 +10,7 @@ from django.contrib.auth import get_user_model
 from .models import Post, Comment, Like
 from .serializers import UserSerializer, PostSerializer, CommentSerializer, LikeSerializer, RegisterSerializer, PostFeedSerializer
 from rest_framework.permissions import AllowAny
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 
 User = get_user_model()
@@ -18,8 +19,9 @@ User = get_user_model()
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    # Add this line to accept form data and images, along with standard JSON
+    parser_classes = [MultiPartParser, FormParser, JSONParser] 
 
-    # Custom endpoint for the frontend to easily fetch/update the logged-in user's profile
     @action(detail=False, methods=['get', 'put', 'patch'], permission_classes=[permissions.IsAuthenticated])
     def me(self, request):
         user = request.user

@@ -10,6 +10,7 @@ const postId = urlParams.get('id');
 const titleElement = document.getElementById('post-title');
 const authorNameElement = document.getElementById('post-author-name');
 const authorHandleElement = document.getElementById('post-author-handle');
+const authorImageElement = document.getElementById('post-author-image'); // NEW: Added for Post Author Avatar
 const dateElement = document.getElementById('post-date');
 const contentElement = document.getElementById('post-content');
 const imageElement = document.getElementById('post-image');
@@ -38,6 +39,11 @@ async function getSinglePost() {
         titleElement.innerText = postData.title;
         authorNameElement.innerText = postData.author;
         authorHandleElement.innerText = `@${postData.author}`;
+        
+        // --- NEW: Load the Post Author's Profile Image ---
+        if (authorImageElement) {
+            authorImageElement.src = postData.author_image ? postData.author_image : 'assets/default-avatar.png';
+        }
         
         const date = new Date(postData.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         dateElement.innerText = date;
@@ -75,16 +81,10 @@ async function getSinglePost() {
 
     } catch (error) {
         console.error("Something went wrong:", error);
-        titleElement.innerText = "Error loading the post.";
-        contentElement.innerText = "We couldn't load this post. Please try again later.";
+        if(titleElement) titleElement.innerText = "Error loading the post.";
+        if(contentElement) contentElement.innerText = "We couldn't load this post. Please try again later.";
     }
 }
-
-// We use the pageshow event instead of DOMContentLoaded because it fires both on a fresh page load and when the user navigates back to this page using the browser's back button. This ensures that the post data is always up-to-date, especially after actions like liking a post or adding a comment. 
-// getSinglePost();
-// window.addEventListener('pageshow', getSinglePost);
-// Run BOTH functions when the page loads
-
 
 // this pageshow event is used here to ensure that the post data and comments are refreshed whenever the user navigates back to this page, such as after liking a post or adding a comment. This keeps the displayed information current without requiring a full page reload.👇
 window.addEventListener('pageshow', () => {
@@ -132,10 +132,7 @@ async function togglePostLike() {
     }
 }
 
-// This function is called when the user clicks the like button. It checks if the user is logged in, sends a request to the backend to toggle the like status for the current post, and then refreshes the post data to reflect any changes in the like count.
-// --- NEW: Load Comments Logic (With Edit/Delete UI) ---
-// This version asks Django who is currently logged in, and if their username matches the comment author, it adds the buttons!
-// --- NEW: Load Comments Logic (With Timestamps & Modal UI Triggers) ---
+// --- NEW: Load Comments Logic (With Timestamps, Images & Modal UI Triggers) ---
 async function loadComments() {
     try {
         let currentUser = null;
@@ -170,7 +167,12 @@ async function loadComments() {
                 const authorName = comment.author || 'User';
                 const firstLetter = authorName.charAt(0).toUpperCase();
                 
-                // --- NEW: Formatted Date & Time (e.g., Oct 15, 2026 at 2:41 PM) ---
+                // --- NEW: Dynamic Avatar HTML (Image or Initial) ---
+                const avatarHTML = comment.author_image 
+                    ? `<img src="${comment.author_image}" alt="${authorName}" class="w-8 h-8 rounded-full object-cover">`
+                    : `<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm">${firstLetter}</div>`;
+                
+                // Formatted Date & Time 
                 const dateObj = new Date(comment.created_at);
                 const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 const formattedTime = dateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
@@ -178,7 +180,6 @@ async function loadComments() {
 
                 const isOwner = (currentUser === authorName);
                 
-                // --- NEW: Buttons now trigger the modern modals ---
                 const ownerActionsHTML = isOwner ? `
                     <div class="flex gap-4 mt-3 pt-3 border-t border-surface-container">
                         <button onclick="openEditModal(${comment.id})" class="text-xs font-semibold text-primary hover:text-primary-container transition-colors">Edit</button>
@@ -189,9 +190,7 @@ async function loadComments() {
                 const commentHTML = `
                     <div class="bg-surface-container-lowest border border-surface-container-high rounded-xl p-4 shadow-sm">
                         <div class="flex items-center gap-3 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm">
-                                ${firstLetter}
-                            </div>
+                            ${avatarHTML}
                             <div>
                                 <p class="font-semibold text-sm text-on-surface">${authorName}</p>
                                 <p class="text-xs text-on-surface-variant">${fullDateTime}</p>
@@ -210,8 +209,6 @@ async function loadComments() {
     }
 }
 
-
-// This function fetches comments for the current post and displays them in the comments section. It also updates the comment count displayed on the page. If there are no comments, it shows a friendly message encouraging users to comment.
 // --- NEW: Submit Comment Logic ---
 async function submitComment() {
     const commentInput = document.getElementById('comment-input');
@@ -235,14 +232,12 @@ async function submitComment() {
     submitBtn.disabled = true;
 
     try {
-        // FIXED URL: We now post to the root /api/comments/ endpoint
         const response = await fetch(`http://127.0.0.1:8000/api/comments/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}` 
             },
-            // FIXED BODY: We must send the postId inside the JSON data!
             body: JSON.stringify({ 
                 post: postId, 
                 content: content 
@@ -266,11 +261,8 @@ async function submitComment() {
     }
 }
 
-
-
 // --- NEW: Modern Modal Logic for Edit & Delete ---
-
-let activeCommentId = null; // Remembers which comment we are editing or deleting
+let activeCommentId = null; 
 
 function closeModals() {
     document.getElementById('modal-overlay').classList.add('hidden');
@@ -289,7 +281,6 @@ function openDeleteModal(commentId) {
 
 function openEditModal(commentId) {
     activeCommentId = commentId;
-    // Grab the existing text from the page and put it in the modal's text box
     const currentText = document.getElementById(`comment-content-${commentId}`).innerText;
     document.getElementById('edit-comment-input').value = currentText;
     
@@ -357,5 +348,3 @@ async function confirmEditComment() {
         btn.innerText = "Save Changes";
     }
 }
-
-
