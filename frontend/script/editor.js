@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     document.getElementById('t-bold').addEventListener('click', () => format('bold'));
     document.getElementById('t-italic').addEventListener('click', () => format('italic'));
+    document.getElementById('t-underline').addEventListener('click', () => format('underline'));
     document.getElementById('t-h1').addEventListener('click', () => format('header', 1));
     document.getElementById('t-h2').addEventListener('click', () => format('header', 2));
     document.getElementById('t-quote').addEventListener('click', () => format('blockquote'));
